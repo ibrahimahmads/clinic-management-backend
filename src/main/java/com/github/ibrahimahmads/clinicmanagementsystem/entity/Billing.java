@@ -21,7 +21,7 @@ public class Billing extends BaseCreatedEntity{
     @UuidGenerator
     private UUID id;
 
-    @OneToOne(mappedBy = "billing")
+    @OneToOne
     @JsonIgnoreProperties("medicalRecord")
     @JoinColumn(name = "medical_record_id")
     private MedicalRecord medicalRecord;

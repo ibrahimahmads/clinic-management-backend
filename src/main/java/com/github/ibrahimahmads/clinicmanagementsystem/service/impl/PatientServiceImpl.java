@@ -20,7 +20,7 @@ public class PatientServiceImpl implements PatientService {
         if(patientRepository.existsByPhoneNumber(patient.getPhoneNumber())){
             throw new DataValidationException("Patient with this phone number already exists");
         }
-        return save(patient);
+        return patientRepository.save(patient);
     }
 
     @Override
