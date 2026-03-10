@@ -1,6 +1,7 @@
 package com.github.ibrahimahmads.clinicmanagementsystem.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.github.ibrahimahmads.clinicmanagementsystem.dto.response.patient.PatientResponse;
 import com.github.ibrahimahmads.clinicmanagementsystem.utils.enums.Gender;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -52,4 +53,14 @@ public class Patient extends BaseEntity{
     @OneToMany(mappedBy = "patient")
     @JsonIgnoreProperties("patient")
     private List<Billing> billingList = new ArrayList<>();
+
+    public PatientResponse toResponse(){
+        return PatientResponse.builder()
+                .name(getNamePatient())
+                .birthDate(getBirthDate())
+                .gender(getGender())
+                .phoneNumber(getPhoneNumber())
+                .address(getAddress())
+                .build();
+    }
 }
