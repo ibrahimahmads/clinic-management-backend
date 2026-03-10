@@ -1,5 +1,7 @@
 package com.github.ibrahimahmads.clinicmanagementsystem.controller;
 
+import com.github.ibrahimahmads.clinicmanagementsystem.dto.request.patient.PatientRequest;
+import com.github.ibrahimahmads.clinicmanagementsystem.dto.response.patient.PatientResponse;
 import com.github.ibrahimahmads.clinicmanagementsystem.entity.Patient;
 import com.github.ibrahimahmads.clinicmanagementsystem.service.PatientService;
 import lombok.RequiredArgsConstructor;
@@ -17,8 +19,8 @@ public class PatientController {
     private final PatientService patientService;
 
     @PostMapping(value = "/save")
-    public ResponseEntity<Patient> savePatient(@RequestBody Patient patient){
-        return ResponseEntity.status(HttpStatus.CREATED).body(patientService.save(patient));
+    public ResponseEntity<PatientResponse> savePatient(@RequestBody PatientRequest payload){
+        return ResponseEntity.status(HttpStatus.CREATED).body(patientService.save(payload).toResponse());
     }
 
     @GetMapping
@@ -27,14 +29,13 @@ public class PatientController {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Patient> getById(@PathVariable("id") UUID id){
-        return ResponseEntity.ok(patientService.findById(id));
+    public ResponseEntity<PatientResponse> getById(@PathVariable("id") UUID id){
+        return ResponseEntity.ok(patientService.findById(id).toResponse());
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<Patient> updatePatient(@PathVariable("id") UUID id, @RequestBody Patient patient){
-        patient.setId(id);
-        return ResponseEntity.ok(patientService.update(patient));
+    public ResponseEntity<PatientResponse> updatePatient(@PathVariable("id") UUID id, @RequestBody PatientRequest payload){
+        return ResponseEntity.ok(patientService.update(id,payload).toResponse());
     }
 
     @DeleteMapping(value = "/{id}")

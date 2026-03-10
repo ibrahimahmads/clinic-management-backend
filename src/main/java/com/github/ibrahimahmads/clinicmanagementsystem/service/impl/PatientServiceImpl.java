@@ -1,5 +1,6 @@
 package com.github.ibrahimahmads.clinicmanagementsystem.service.impl;
 
+import com.github.ibrahimahmads.clinicmanagementsystem.dto.request.patient.PatientRequest;
 import com.github.ibrahimahmads.clinicmanagementsystem.entity.Patient;
 import com.github.ibrahimahmads.clinicmanagementsystem.repository.PatientRepository;
 import com.github.ibrahimahmads.clinicmanagementsystem.service.PatientService;
@@ -16,10 +17,17 @@ public class PatientServiceImpl implements PatientService {
     private final PatientRepository patientRepository;
 
     @Override
-    public Patient save(Patient patient) {
-        if(patientRepository.existsByPhoneNumber(patient.getPhoneNumber())){
+    public Patient save(PatientRequest payload) {
+        if(patientRepository.existsByPhoneNumber(payload.getPhoneNumber())){
             throw new DataValidationException("Patient with this phone number already exists");
         }
+        Patient patient = Patient.builder()
+                .namePatient(payload.getName())
+                .phoneNumber(payload.getPhoneNumber())
+                .gender(payload.getGender())
+                .address(payload.getAddress())
+                .birthDate(payload.getBirthDate())
+                .build();
         return patientRepository.save(patient);
     }
 
@@ -29,14 +37,14 @@ public class PatientServiceImpl implements PatientService {
     }
 
     @Override
-    public Patient update(Patient patient) {
-        Patient patientToUpdate = findById(patient.getId());
+    public Patient update(UUID id,PatientRequest payload) {
+        Patient patientToUpdate = findById(id);
 
-        patientToUpdate.setNamePatient(patient.getNamePatient());
-        patientToUpdate.setPhoneNumber(patient.getPhoneNumber());
-        patientToUpdate.setGender(patient.getGender());
-        patientToUpdate.setAddress(patient.getAddress());
-        patientToUpdate.setBirthDate(patient.getBirthDate());
+        patientToUpdate.setNamePatient(payload.getName());
+        patientToUpdate.setPhoneNumber(payload.getPhoneNumber());
+        patientToUpdate.setGender(payload.getGender());
+        patientToUpdate.setAddress(payload.getAddress());
+        patientToUpdate.setBirthDate(payload.getBirthDate());
 
         return save(patientToUpdate);
     }
