@@ -46,7 +46,7 @@ public class PatientServiceImpl implements PatientService {
         patientToUpdate.setAddress(payload.getAddress());
         patientToUpdate.setBirthDate(payload.getBirthDate());
 
-        return save(patientToUpdate);
+        return patientRepository.save(patientToUpdate);
     }
 
     @Override
